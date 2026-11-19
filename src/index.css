@@ -1,0 +1,134 @@
+@import "tailwindcss";
+
+/* Dunkelmodus über die Klasse .dark am <html>-Element (gesteuert durch die Einstellung). */
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --bg: #eef1f5;
+  --surface: #ffffff;
+  --surface-2: #f6f8fb;
+  --ink: #111820;
+  --muted: #586374;
+  --line: #d9dfe7;
+  --swim: #1e5fd8;
+  --bike: #e8820f;
+  --run: #16764a;
+  --strength: #7442d6;
+  /* Sportfarben mit dem dataviz-Validator geprüft (Lichtbereich, Farbsehschwäche, Kontrast). */
+  --other: #64748b;
+  --danger: #c4261d;
+  --ok: #15803d;
+  --warn: #a15c00;
+  color-scheme: light;
+}
+
+.dark {
+  --bg: #0c131b;
+  --surface: #151f2a;
+  --surface-2: #1b2734;
+  --ink: #e8edf3;
+  --muted: #95a3b4;
+  --line: #273544;
+  --swim: #5287ea;
+  --bike: #d6721a;
+  --run: #11815a;
+  --strength: #9d74ee;
+  --other: #94a3b8;
+  --danger: #ff6b61;
+  --ok: #4ccb7d;
+  --warn: #f2b14c;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-swim: var(--swim);
+  --color-bike: var(--bike);
+  --color-run: var(--run);
+  --color-strength: var(--strength);
+  --color-other: var(--other);
+  --color-danger: var(--danger);
+  --color-ok: var(--ok);
+  --color-warn: var(--warn);
+  /* Systemschrift: auf dem iPhone SF Pro, keine Webfont-Downloads → voll offlinefähig. */
+  --font-sans: system-ui, -apple-system, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  overscroll-behavior-y: none;
+}
+
+/* Zahlen in Kennzahlen gleich breit, damit sich nichts verschiebt. */
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* iOS zoomt bei Schriftgrößen < 16 px in Eingabefelder hinein – deshalb mindestens 16 px. */
+input,
+select,
+textarea {
+  font-size: 16px;
+  /* Eingabefelder dürfen nie breiter werden als ihr Container (iOS gibt Datumsfeldern sonst eine Mindestbreite). */
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* iOS Safari: Datums- und Zeitfelder haben eine eigene Mindestbreite und zentrierten Text und laufen
+   deshalb über den rechten Rand, besonders in schmalen Spalten. Native Darstellung abschalten,
+   Breite an den Container binden, Text links ausrichten; die Höhe kommt aus min-h-12. */
+input[type="date"],
+input[type="time"],
+input[type="month"],
+input[type="datetime-local"] {
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+  width: 100%;
+  min-width: 0;
+  /* ohne native Darstellung sitzt der Text sonst oben im Feld */
+  padding-block: 0.75rem;
+  line-height: 1.5rem;
+}
+input::-webkit-date-and-time-value {
+  text-align: left;
+  margin: 0;
+  min-width: 0;
+}
+input::-webkit-datetime-edit {
+  padding: 0;
+}
+
+:focus-visible {
+  outline: 2px solid var(--swim);
+  outline-offset: 2px;
+}
+
+.pt-safe {
+  padding-top: max(env(safe-area-inset-top), 0.75rem);
+}
+.pb-safe {
+  padding-bottom: max(env(safe-area-inset-bottom), 0.5rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
